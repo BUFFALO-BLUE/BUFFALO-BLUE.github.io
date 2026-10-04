@@ -3,127 +3,146 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Portfolio</title>
+    <title>Musarah Muhammad</title>
     <style>
-        /* Basic Reset & Setup */
+        :root {
+            --bg: #ffffff;
+            --text: #24292e;
+            --muted: #57606a;
+            --line: #d0d7de;
+            --link: #0969da;
+            --soft: #f6f8fa;
+        }
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; display: flex; color: #24292e; background-color: #f6f8fa; }
+        html { scroll-padding-top: 72px; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: var(--text); background: var(--bg); line-height: 1.6; }
+        a { color: var(--link); }
 
-        /* Sidebar Styling (Emulating GitHub Profile Look) */
-        .sidebar { width: 280px; background: #ffffff; border-right: 1px solid #d0d7de; height: 100vh; position: fixed; padding: 24px; display: flex; flex-direction: column; align-items: center; text-align: center; }
-        .avatar { width: 150px; height: 150px; border-radius: 50%; border: 1px solid #d0d7de; margin-bottom: 16px; object-fit: cover; }
-        .name { font-size: 20px; font-weight: 600; margin-bottom: 4px; }
-        .username { font-size: 16px; color: #57606a; margin-bottom: 16px; }
-        .bio { font-size: 14px; margin-bottom: 24px; color: #24292e; }
-        
-        /* Sidebar Navigation Links */
-        .nav-links { width: 100%; list-style: none; text-align: left; }
-        .nav-links li { margin-bottom: 8px; }
-        .nav-links a { display: block; padding: 8px 12px; color: #0969da; text-decoration: none; font-weight: 500; border-radius: 6px; }
-        .nav-links a:hover { background-color: #f3f4f6; text-decoration: underline; }
+        /* ---------- Top navigation ---------- */
+        .topnav { position: sticky; top: 0; z-index: 10; display: flex; align-items: center; gap: 32px; padding: 0 32px; height: 56px; background: var(--bg); border-bottom: 1px solid var(--line); }
+        .topnav .brand { font-weight: 600; color: var(--muted); text-decoration: none; margin-right: 24px; }
+        .topnav a.link { color: var(--muted); text-decoration: none; font-size: 16px; padding: 16px 0; border-bottom: 2px solid transparent; }
+        .topnav a.link:hover { color: var(--text); }
+        .topnav a.link.current { color: var(--text); border-bottom-color: var(--link); }
 
-        /* Main Content Area Layout */
-        .main-content { margin-left: 280px; padding: 40px; width: calc(100% - 280px); min-height: 100vh; }
-        .page { display: none; } /* Hides all pages by default */
-        .page.active { display: block; } /* Shows only the active page */
-        
-        h2 { font-size: 24px; font-weight: 600; border-bottom: 1px solid #d0d7de; padding-bottom: 8px; margin-bottom: 20px; }
+        /* ---------- Layout: sidebar + content ---------- */
+        .layout { display: flex; gap: 48px; max-width: 1100px; margin: 0 auto; padding: 40px 32px; }
+        .sidebar { width: 240px; flex-shrink: 0; }
+        .avatar { width: 200px; height: 200px; border-radius: 50%; border: 1px solid var(--line); object-fit: cover; margin-bottom: 16px; }
+        .name { font-size: 22px; font-weight: 600; }
+        .handle { color: var(--muted); font-size: 15px; margin-bottom: 12px; }
+        .bio { font-size: 14px; margin-bottom: 16px; }
+        .contact { list-style: none; font-size: 14px; }
+        .contact li { margin-bottom: 6px; }
 
-        /* Photo Gallery Styling */
-        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; margin-top: 20px; }
-        .gallery-item img { width: 100%; height: 200px; object-fit: cover; border-radius: 6px; border: 1px solid #d0d7de; }
+        .content { flex: 1; min-width: 0; max-width: 720px; }
+        .page { display: none; }
+        .page.active { display: block; }
+        h2 { font-size: 26px; font-weight: 600; padding-bottom: 8px; margin-bottom: 20px; border-bottom: 1px solid var(--line); }
+        h3 { font-size: 18px; margin: 28px 0 8px; }
+        p { margin-bottom: 12px; }
+        ul.plain { margin-left: 20px; margin-bottom: 12px; }
+        ul.plain li { margin-bottom: 6px; }
 
-        /* CV Styling */
-        .cv-section { margin-bottom: 24px; }
-        .cv-section h3 { font-size: 18px; margin-bottom: 8px; color: #57606a; }
-        .cv-item { background: #fff; padding: 16px; border: 1px solid #d0d7de; border-radius: 6px; margin-bottom: 12px; }
-        .cv-item h4 { font-size: 16px; font-weight: 600; }
-        .cv-item .date { font-size: 14px; color: #57606a; margin-bottom: 8px; }
+        /* ---------- Gallery ---------- */
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 16px; margin-top: 16px; }
+        .gallery-item { margin: 0; }
+        .gallery-item img { display: block; width: 100%; height: 220px; object-fit: cover; border-radius: 6px; border: 1px solid var(--line); background: var(--soft); }
+        .gallery-item figcaption { font-size: 13px; color: var(--muted); margin-top: 6px; }
+
+        a:focus-visible { outline: 2px solid var(--link); outline-offset: 2px; }
+
+        /* ---------- Small screens ---------- */
+        @media (max-width: 800px) {
+            .topnav { gap: 18px; padding: 0 16px; overflow-x: auto; }
+            .topnav .brand { margin-right: 8px; white-space: nowrap; }
+            .topnav a.link { white-space: nowrap; }
+            .layout { flex-direction: column; gap: 24px; padding: 24px 16px; }
+            .sidebar { width: 100%; }
+            .avatar { width: 140px; height: 140px; }
+        }
     </style>
 </head>
 <body>
 
-    <!-- SIDEBAR: Stays static on the left -->
-    <div class="sidebar">
-        <!-- Swap out with your GitHub avatar or any image URL -->
-        <img class="avatar" src="https://github.com/BUFFALO-BLUE" alt="Profile Picture">
-        <div class="name">Musarah Muhammad</div>
-        <div class="username">@yBUFFALO-BLUE</div>
-        <div class="bio">Cognitive Scientist & Machine Learning Engineer. Welcome to my personal site!</div>
-        
-        <ul class="nav-links">
-            <li><a href="#about" onclick="showPage('about')">About Me</a></li>
-            <li><a href="#gallery" onclick="showPage('gallery')">Photo Gallery</a></li>
-            <li><a href="#cv" onclick="showPage('cv')">My CV / Resume</a></li>
-        </ul>
-    </div>
+    <!-- TOP NAV -->
+    <nav class="topnav">
+        <a class="brand" href="#about">Musarah Muhammad</a>
+        <a class="link" href="#about" data-page="about">About</a>
 
-    <!-- MAIN CONTENT: Changes dynamically based on clicked link -->
-    <div class="main-content">
-        
-        <!-- PAGE 1: About Me -->
-        <div id="about" class="page active">
-            <h2>About Me</h2>
-            <p>Hello! This is the main landing page of my website. You can talk about your background, interests, and what you do here.</p>
-        </div>
+        <!-- CV opens the PDF in the same tab, so the browser Back button returns here.
+             Put your file at assets/Musarah_Muhammad_CV.pdf (no spaces in the name). -->
+        <a class="link" href="assets/Musarah_Muhammad_CV.pdf">CV</a>
 
-        <!-- PAGE 2: Photo Gallery -->
-        <div id="gallery" class="page">
-            <h2>Photo Gallery</h2>
-            <p>A collection of my favorite photos and projects.</p>
-            <div class="gallery-grid">
-                <!-- Replace src URLs with your own image paths or web links -->
-                <div class="gallery-item"><img src="https://picsum.photos" alt="Gallery Image 1"></div>
-                <div class="gallery-item"><img src="https://picsum.photos" alt="Gallery Image 2"></div>
-                <div class="gallery-item"><img src="https://picsum.photos" alt="Gallery Image 3"></div>
-                <div class="gallery-item"><img src="https://picsum.photos" alt="Gallery Image 4"></div>
-            </div>
-        </div>
+        <a class="link" href="#gallery" data-page="gallery">Gallery &amp; Media</a>
+    </nav>
 
-        <!-- PAGE 3: CV / Resume -->
-        <div id="cv" class="page">
-            <h2>Curriculum Vitae</h2>
-            
-            <div class="cv-section">
+    <div class="layout">
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <!-- github.com/USERNAME.png returns your GitHub avatar as an image -->
+            <img class="avatar" src="https://github.com/BUFFALO-BLUE.png" alt="Musarah Muhammad">
+            <div class="name">Musarah Muhammad</div>
+            <div class="handle">@BUFFALO-BLUE</div>
+            <div class="bio">Cognitive Scientist &amp; Machine Learning Engineer. Exploring data and building meaningful things.</div>
+            <ul class="contact">
+                <li><a href="https://github.com/BUFFALO-BLUE">GitHub</a></li>
+                <li><a href="https://www.linkedin.com/in/musarah-m-9a4909254">LinkedIn</a></li>
+                <li><a href="https://www.instagram.com/musarah18">Instagram</a></li>
+            </ul>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="content">
+
+            <section id="about" class="page active">
+                <h2>About</h2>
+                <p>Hi, I'm Musarah, a university senior studying cognitive science and machine learning. Write two or three sentences here about what you study and what questions you want to work on.</p>
+                <p>Add a line about what you're looking for next, such as grad school, a job, or research opportunities.</p>
+
                 <h3>Education</h3>
-                <div class="cv-item">
-                    <h4>B.S. in Computer Science</h4>
-                    <div class="date">University Name | 2022 - 2026</div>
-                    <p>Relevant coursework, honors, or activities.</p>
-                </div>
-            </div>
+                <ul class="plain">
+                    <li>Cognitive Science B.S., University of Connecticut (expected 2027)</li>
+                </ul>
 
-            <div class="cv-section">
-                <h3>Experience</h3>
-                <div class="cv-item">
-                    <h4>Web Development Intern</h4>
-                    <div class="date">Company Name | Summer 2025</div>
-                    <p>Built responsive frontend features and maintained documentation.</p>
-                </div>
-            </div>
-        </div>
+                <h3>Projects</h3>
+                <ul class="plain">
+                    <li><a href="https://github.com/BUFFALO-BLUE/training">training</a>: Python</li>
+                </ul>
+            </section>
 
+            <section id="gallery" class="page">
+                <h2>Gallery &amp; Media</h2>
+                <p>Photos from projects, events, and presentations.</p>
+                <div class="gallery-grid">
+                    <!-- Save your photos in an images/ folder and update the file names and captions. -->
+                    <figure class="gallery-item"><img src="images/photo1.jpg" alt="Describe photo 1" loading="lazy"><figcaption>Caption 1</figcaption></figure>
+                    <figure class="gallery-item"><img src="images/photo2.jpg" alt="Describe photo 2" loading="lazy"><figcaption>Caption 2</figcaption></figure>
+                    <figure class="gallery-item"><img src="images/photo3.jpg" alt="Describe photo 3" loading="lazy"><figcaption>Caption 3</figcaption></figure>
+                    <figure class="gallery-item"><img src="images/photo4.jpg" alt="Describe photo 4" loading="lazy"><figcaption>Caption 4</figcaption></figure>
+                </div>
+            </section>
+
+        </main>
     </div>
 
-    <!-- JAVASCRIPT: Handles switching between pages smoothly without reloading -->
     <script>
-        function showPage(pageId) {
-            // Hide all pages
-            const pages = document.querySelectorAll('.page');
-            pages.forEach(page => page.classList.remove('active'));
-            
-            // Show the selected page
-            const activePage = document.getElementById(pageId);
-            if (activePage) {
-                activePage.classList.add('active');
-            }
-        }
+        // Shows the section matching the URL hash (#about, #gallery).
+        // Listening to "hashchange" means the browser Back/Forward buttons work too.
+        function route() {
+            const id = window.location.hash.substring(1) || 'about';
+            const target = document.getElementById(id);
+            const pageId = target && target.classList.contains('page') ? id : 'about';
 
-        // Optional: Checks URL hash (e.g. ://site.com) on load to open the correct page
-        window.addEventListener('DOMContentLoaded', () => {
-            const hash = window.location.hash.substring(1);
-            if (hash) showPage(hash);
-        });
+            document.querySelectorAll('.page').forEach(p => p.classList.toggle('active', p.id === pageId));
+            document.querySelectorAll('.topnav a.link[data-page]').forEach(a => {
+                a.classList.toggle('current', a.dataset.page === pageId);
+            });
+            window.scrollTo(0, 0);
+        }
+        window.addEventListener('hashchange', route);
+        window.addEventListener('DOMContentLoaded', route);
     </script>
 </body>
 </html>
